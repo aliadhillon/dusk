@@ -10,9 +10,7 @@
                 @foreach ($posts as $post)
                     <a href="{{ route('posts.show', ['post' => $post->id]) }}" class="list-group-item list-group-item-action">
                         {{ $post->title }} 
-                        @if (Auth::user()->isAdmin())
-                            <span class="small float-right text-danger">{{ $post->user->name }}</span>
-                        @endif 
+                        <span class="small float-right text-danger">{{ $post->user->name }}</span>
                     </a>
                 @endforeach
             </div>
