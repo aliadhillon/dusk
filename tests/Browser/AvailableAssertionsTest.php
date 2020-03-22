@@ -17,7 +17,7 @@ class AvailableAssertionsTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/')
-                    ->assertHostIs(parse_url(route('welcome'), PHP_URL_HOST));
+                    ->assertHostIs('dusk.test');
         });
     }
 }
