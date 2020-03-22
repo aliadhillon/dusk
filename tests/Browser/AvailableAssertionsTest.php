@@ -17,7 +17,7 @@ class AvailableAssertionsTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/')
-                    ->assertHostIs('dusk.test');
+                    ->assertPathBeginsWith('/');
         });
     }
 }
