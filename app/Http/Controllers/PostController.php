@@ -4,9 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PostRequest;
 use App\Post;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
+    public function __construct() {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -36,7 +40,9 @@ class PostController extends Controller
      */
     public function store(PostRequest $request)
     {
-        //
+        $post = Post::create(array_merge($request->validated(), ['user_id' => Auth::user()->id]));
+
+        return redirect()->route('posts.show', ['post' => $post])->withMsg('Post created successfully');
     }
 
     /**
@@ -47,7 +53,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        //
+        return view('posts.show', ['post' => $post]);
     }
 
     /**
@@ -58,7 +64,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        return view('posts.edit', ['post' => $post]);
     }
 
     /**
@@ -70,7 +76,9 @@ class PostController extends Controller
      */
     public function update(PostRequest $request, Post $post)
     {
-        //
+        $post->update($request->validated());
+
+        return redirect()->route('posts.show', ['post' => $post])->withMsg('Post has been updated');
     }
 
     /**
@@ -81,6 +89,8 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        $post->delete();
+
+        return redirect()->route('posts.index')->withMsg("Post with the title {$post->title} has been deleted.");
     }
 }
