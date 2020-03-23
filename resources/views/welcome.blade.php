@@ -97,10 +97,14 @@
             </div>
         </div>
 
-        {{-- <div id="waiter" class="content" style="visibility:hidden;">
+        <div id="waiter" class="content" style="visibility:hidden;">
             <h3>Waiter</h3>
             <p>This is a sample waiter div.</p>
-        </div> --}}
+        </div>
+
+        <div class="content">
+            <button id="alert" onclick="alert('Test alert.')">Alert</button>
+        </div>
         
         {{-- <script>
             setTimeout(function(){

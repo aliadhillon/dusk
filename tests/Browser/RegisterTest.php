@@ -7,6 +7,7 @@ use Faker\Factory;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Dusk\Browser;
+use Tests\Browser\Components\Register;
 use Tests\DuskTestCase;
 
 class RegisterTest extends DuskTestCase
@@ -44,7 +45,8 @@ class RegisterTest extends DuskTestCase
     }
 
     /**
-     * A Dusk test example.
+     * I am using dusk component in this mehtod
+     * to enter user data.
      *
      * @return void
      */
@@ -59,10 +61,13 @@ class RegisterTest extends DuskTestCase
         $this->browse(function (Browser $browser) use($data) {
             $browser->visit('/register')
                     ->assertSee('Register')
-                    ->type('name', $data['name'])
-                    ->type('email', $data['email'])
-                    ->type('password', $data['password'])
-                    ->type('password_confirmation', $data['password'])
+                    ->within(new Register, function($browser) {
+                        $browser->enterData();
+                    })
+                    // ->type('name', $data['name'])
+                    // ->type('email', $data['email'])
+                    // ->type('password', $data['password'])
+                    // ->type('password_confirmation', $data['password'])
                     ->press('Register')
                     ->assertPathIs('/home')
                     ->assertSee('You are logged in!');

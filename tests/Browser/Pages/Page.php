@@ -14,7 +14,7 @@ abstract class Page extends BasePage
     public static function siteElements()
     {
         return [
-            '@element' => '#selector',
+            '@login-card' => 'div[id=login-heading]',
         ];
     }
 }
