@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\FullPostCreated;
 use App\Events\PostCreated;
 use App\Http\Requests\PostRequest;
+use App\Jobs\LogNewPost;
+use App\Mail\PostCreatedMail;
 use App\Post;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class PostController extends Controller
 {
@@ -43,7 +47,7 @@ class PostController extends Controller
     {
         $post = Post::create(array_merge($request->validated(), ['user_id' => Auth::user()->id]));
 
-        event(new PostCreated($post));
+        Mail::to(Auth::user())->send(new PostCreatedMail($post));
 
         return redirect()->route('posts.show', ['post' => $post])->withMsg('Post created successfully');
     }

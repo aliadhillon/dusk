@@ -2,10 +2,13 @@
 
 namespace Tests\Browser;
 
+use App\Events\PostCreated;
 use App\Post;
 use App\User;
 use Faker\Factory;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\Event;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 use UsersTableSeeder;
@@ -52,7 +55,7 @@ class PostTest extends DuskTestCase
 
         $data = [
             'title' => $this->faker->sentence,
-            'body' => $this->faker->paragraphs(5, true)
+            'body' => $this->faker->paragraphs(3, true)
         ];
 
         $this->browse(function (Browser $browser) use($user, $data) {
@@ -65,9 +68,10 @@ class PostTest extends DuskTestCase
                     ->assertUrlIs(route('posts.show', ['post' => 1]))
                     ->assertSee('Post created successfully')
                     ->assertSeeIn('h2#post-title', $data['title']);
-
-            $this->assertNotNull(Post::find(1));
         });
+
+        $post = Post::find(1);
+        $this->assertNotNull($post);
     }
 
     public function test_post_edit()

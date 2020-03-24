@@ -2,11 +2,12 @@
 
 namespace App\Listeners;
 
-use App\Events\PostCreated;
+use App\Events\FullPostCreated;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Log;
 
-class LogNewPost
+class LogFullPost
 {
     /**
      * Create the event listener.
@@ -21,11 +22,11 @@ class LogNewPost
     /**
      * Handle the event.
      *
-     * @param  PostCreated  $event
+     * @param  FullPostCreated  $event
      * @return void
      */
-    public function handle(PostCreated $event)
+    public function handle(FullPostCreated $event)
     {
-        info('New Post created.', ['post' => $event->post->title]);
+        Log::info('Logging full post', ['post' => $event->post]);
     }
 }

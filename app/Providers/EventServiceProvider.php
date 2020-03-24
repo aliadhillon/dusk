@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Events\FullPostCreated;
 use App\Events\PostCreated;
+use App\Listeners\LogFullPost;
 use App\Listeners\LogNewPost;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -22,6 +24,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         PostCreated::class => [
             LogNewPost::class
+        ],
+        FullPostCreated::class => [
+            LogFullPost::class,
         ]
     ];
 

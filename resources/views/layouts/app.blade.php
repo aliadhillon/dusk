@@ -37,6 +37,9 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('posts.index') }}">{{ __('Posts') }}</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('posts.create') }}">{{ __('Create Post') }}</a>
+                            </li>
                         @endauth
                     </ul>
 
