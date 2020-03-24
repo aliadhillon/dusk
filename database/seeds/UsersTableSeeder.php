@@ -13,8 +13,10 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(User::class, 10)->create()->each(function($user) {
-            $user->posts()->saveMany(factory(Post::class, 3)->make());
-        });
+        // factory(User::class, 10)->create()->each(function($user) {
+        //     $user->posts()->saveMany(factory(Post::class, 3)->make());
+        // });
+
+        factory(User::class, 10)->state('not_verified')->create();
     }
 }

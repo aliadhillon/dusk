@@ -32,7 +32,7 @@ class PostTest extends DuskTestCase
     {
         $user = factory(User::class)->create();
 
-        $posts = $user->posts()->createMany(factory(Post::class, 10)->make()->toArray());
+        $posts = $user->posts()->saveMany(factory(Post::class, 10)->make());
 
         $this->browse(function (Browser $browser) use($user, $posts) {
             $browser->loginAs($user)
@@ -40,6 +40,7 @@ class PostTest extends DuskTestCase
                     ->assertSee('Posts');
 
             foreach($posts as $post){
+                $this->assertDatabaseHas('posts', $post->toArray());
                 $browser->assertSeeIn('@posts', $post->title);
             }
         });
@@ -107,7 +108,8 @@ class PostTest extends DuskTestCase
                     ->assertRouteIs('posts.index')
                     ->assertSee("Post with the title {$post->title} has been deleted.");
             
-            $this->assertNull($post->fresh());
+            // $this->assertNull($post->fresh());
+            $this->assertDeleted($post);
         });
     }
 }

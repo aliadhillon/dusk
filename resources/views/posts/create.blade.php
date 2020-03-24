@@ -9,7 +9,7 @@
 
             <div class="form-group">
                 <label for="title">Title</label>
-                <input name="title" type="text" class="form-control @error('title') is-invalid @enderror" id="title" placeholder="Enter your title here" value="{{ old('title') }}">
+                <input name="title" type="text" class="form-control @error('title') is-invalid @enderror" id="title" placeholder="Enter your title here" value="{{ old('title') }}" autofocus>
                 @error('title')
                 <div class="invalid-feedback">
                     {{ $message }}

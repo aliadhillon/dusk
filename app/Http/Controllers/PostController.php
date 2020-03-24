@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\PostCreated;
 use App\Http\Requests\PostRequest;
 use App\Post;
 use Illuminate\Support\Facades\Auth;
@@ -41,6 +42,8 @@ class PostController extends Controller
     public function store(PostRequest $request)
     {
         $post = Post::create(array_merge($request->validated(), ['user_id' => Auth::user()->id]));
+
+        event(new PostCreated($post));
 
         return redirect()->route('posts.show', ['post' => $post])->withMsg('Post created successfully');
     }

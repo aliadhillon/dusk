@@ -2,6 +2,7 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
+use App\Post;
 use App\User;
 use Faker\Generator as Faker;
 use Illuminate\Support\Str;
@@ -26,3 +27,11 @@ $factory->define(User::class, function (Faker $faker) {
         'remember_token' => Str::random(10),
     ];
 });
+
+$factory->state(User::class, 'not_verified', [
+    'email_verified_at' => null
+]);
+
+// $factory->afterCreating(User::class, function ($user, $faker) {
+//     $user->posts()->saveMany(factory(Post::class, 3)->make());
+// });
