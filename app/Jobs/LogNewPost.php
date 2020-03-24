@@ -4,12 +4,15 @@ namespace App\Jobs;
 
 use App\Post;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 
-class LogNewPost
+class LogNewPost implements ShouldQueue
 {
-    use Dispatchable, Queueable;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public $post;
 
@@ -30,6 +33,6 @@ class LogNewPost
      */
     public function handle()
     {
-        Log::info('New Post has been created.', ['post' => $this->post->title]);
+        Log::info('New Post created', ['post' => $this->post->title]);
     }
 }

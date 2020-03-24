@@ -7,6 +7,7 @@ use App\Events\PostCreated;
 use App\Http\Requests\PostRequest;
 use App\Jobs\LogNewPost;
 use App\Mail\PostCreatedMail;
+use App\Notifications\PostCreatedNotify;
 use App\Post;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -47,7 +48,9 @@ class PostController extends Controller
     {
         $post = Post::create(array_merge($request->validated(), ['user_id' => Auth::user()->id]));
 
-        Mail::to(Auth::user())->send(new PostCreatedMail($post));
+        // Mail::to(Auth::user())->send(new PostCreatedMail($post));
+        // Auth::user()->notify(new PostCreatedNotify($post));
+        // LogNewPost::dispatch($post);
 
         return redirect()->route('posts.show', ['post' => $post])->withMsg('Post created successfully');
     }

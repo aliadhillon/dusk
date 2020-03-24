@@ -8,6 +8,7 @@ use App\Jobs\AnotherJob;
 use App\Jobs\LogNewPost;
 use App\Mail\AnotherMail;
 use App\Mail\PostCreatedMail;
+use App\Notifications\PostCreatedNotify;
 use App\Post;
 use App\User;
 use Faker\Factory;
@@ -18,6 +19,8 @@ use Illuminate\Mail\Mailer;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Queue;
 use Tests\TestCase;
 
 class PostTest extends TestCase
@@ -30,7 +33,7 @@ class PostTest extends TestCase
      */
     public function test_create_post()
     {
-        Mail::fake();
+        Queue::fake();
 
         $faker = Factory::create();
 
@@ -44,13 +47,10 @@ class PostTest extends TestCase
 
         $response->assertRedirect(route('posts.show', ['post' => 1]));
 
-        $this->assertNotNull(Post::find(1));
+        $post = Post::find(1);
+        $this->assertNotNull($post);
 
-        Mail::assertSent(PostCreatedMail::class, function ($mail) use($user) {
-            return $mail->hasTo($user->email);
-        });
-
-        Mail::assertNotSent(AnotherMail::class);
+        Queue::assertNotPushed(LogNewPost::class);
     }
 
     public function test_fake_for()
